@@ -1,12 +1,20 @@
-import { View, Text } from 'react-native'
-import React from 'react'
+//@ts-nocheck
+import {NavigationContainer} from '@react-navigation/native';
+import React from 'react';
+import {LogBox} from 'react-native';
+import {useSelector} from 'react-redux';
 
-const Rootstack = () => {
+import AppNavigation from './appNavigation';
+import AuthNavigation from './authNavigation';
+
+const RootStack = () => {
+  LogBox.ignoreAllLogs();
+  const isLogin = useSelector((state: any) => state.isLogin);
   return (
-    <View>
-      <Text>Rootstack</Text>
-    </View>
-  )
-}
+    <NavigationContainer independent={true}>
+      {isLogin ? <AppNavigation /> : <AuthNavigation />}
+    </NavigationContainer>
+  );
+};
 
-export default Rootstack
+export default RootStack;

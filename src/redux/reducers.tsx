@@ -6,6 +6,7 @@ const initialApiDataState = {
   loading: false,
   data: '',
   error: '',
+  isLogin: false,
 };
 
 const apiDataReducer = (state = initialApiDataState, action: any) => {
@@ -36,8 +37,40 @@ const apiDataReducer = (state = initialApiDataState, action: any) => {
   }
 };
 
+
+const loginReducer = (state = initialApiDataState, action: any) => {
+  switch (action.type) {
+    case 'LOGIN_REQUEST':
+      return {
+        ...state,
+        loading: true,
+        isLogin: false,
+        error: '',
+      };
+    case 'LOGIN_SUCCESS':
+      return {
+        ...state,
+        loading: false,
+        isLogin: action.payload,
+        error: null,
+      };
+    case 'LOGIN_FAILURE':
+      return {
+        ...state,
+        loading: false,
+        isLogin: null,
+        error: action.error,
+      };
+    default:
+      return state;
+  }
+};
+
+
+
 const rootReducer = combineReducers({
   apiData: apiDataReducer,
+  login: loginReducer
   // Add other reducers here
 });
 
