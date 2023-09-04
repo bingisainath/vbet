@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -13,10 +13,16 @@ import * as Animatable from 'react-native-animatable';
 import LinearGradient from 'react-native-linear-gradient';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Feather from 'react-native-vector-icons/Feather';
-
+import {useDispatch, useSelector} from 'react-redux';
 import {useTheme} from 'react-native-paper';
 
+import {loginRequest} from '../../../src/redux/action';
+
 const SignInScreen = (props: any) => {
+  const isLogin = useSelector((state: any) => state.login.isLogin);
+  // const loading = useSelector((state: any) => state.apiData.loading);
+  const dispatch = useDispatch();
+
   const [Emailerror, setEmailError] = useState('');
   const [Passerror, setPassError] = useState('');
   const [validUser, setValidUser] = useState(false);
@@ -113,42 +119,30 @@ const SignInScreen = (props: any) => {
   };
 
   const loginHandle = async () => {
-    if (Emailerror == '') {
-      if (Passerror == '' || Passerror == 'Invalid Password Address') {
-        const details = {
-          email: data.email,
-          password: data.password,
-        };
-        if (details.email != '' && details.password != '') {
-          // const userData = await userAuth(details);
-          // if(userData.data.success === true ){
-          //     Alert.alert("Login Successful");
-          //     // signIn();
-          // }else{
-          //     Alert.alert(
-          //         'Login Failed',
-          //         'Invalid Credentials',
-          //         [
-          //         {text: 'OK', onPress: () => console.log('OK Pressed')},
-          //         ],
-          //         {cancelable: false},
-          //     );
-          // }
-          console.log('Login');
-        } else {
-          Alert.alert(
-            'Login Failed',
-            'Invalid Credentials',
-            [{text: 'OK', onPress: () => console.log('OK Pressed')}],
-            {cancelable: false},
-          );
-        }
-      } else {
-        Alert.alert('Invalid Password');
-      }
-    } else {
-      Alert.alert('Invalid Email');
-    }
+    dispatch(loginRequest());
+
+    // if (Emailerror == '') {
+    //   if (Passerror == '' || Passerror == 'Invalid Password Address') {
+    //     const details = {
+    //       email: data.email,
+    //       password: data.password,
+    //     };
+    //     if (details.email != '' && details.password != '') {
+    //       console.log('Login');
+    //     } else {
+    //       Alert.alert(
+    //         'Login Failed',
+    //         'Invalid Credentials',
+    //         [{text: 'OK', onPress: () => console.log('OK Pressed')}],
+    //         {cancelable: false},
+    //       );
+    //     }
+    //   } else {
+    //     Alert.alert('Invalid Password');
+    //   }
+    // } else {
+    //   Alert.alert('Invalid Email');
+    // }
   };
 
   const ForgetPass = () => {
@@ -243,7 +237,7 @@ const SignInScreen = (props: any) => {
           </Animatable.View>
         )}
         <TouchableOpacity onPress={ForgetPass}>
-          <Text style={{color: '#009387', marginTop: 15,marginHorizontal:20}}>
+          <Text style={{color: '#009387', marginTop: 15, marginHorizontal: 20}}>
             Forgot password?
           </Text>
         </TouchableOpacity>
@@ -319,8 +313,8 @@ const styles = StyleSheet.create({
   text_footer: {
     color: '#05375a',
     fontSize: 18,
-    marginHorizontal:20,
-    marginBottom:5
+    marginHorizontal: 20,
+    marginBottom: 5,
   },
   action: {
     flexDirection: 'row',
@@ -328,7 +322,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#f2f2f2',
     paddingBottom: 5,
-    marginHorizontal:20
+    marginHorizontal: 20,
   },
   actionError: {
     flexDirection: 'row',
@@ -350,7 +344,7 @@ const styles = StyleSheet.create({
   button: {
     alignItems: 'center',
     marginTop: 50,
-    marginHorizontal:20
+    marginHorizontal: 20,
   },
   signIn: {
     width: '100%',

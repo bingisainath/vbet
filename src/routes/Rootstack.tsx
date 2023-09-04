@@ -9,7 +9,9 @@ import AuthNavigation from './authNavigation';
 
 const RootStack = () => {
   LogBox.ignoreAllLogs();
-  const isLogin = useSelector((state: any) => state.isLogin);
+  
+  const isLogin = useSelector((state: any) => state.login.isLogin);
+
   return (
     <NavigationContainer independent={true}>
       {isLogin ? <AppNavigation /> : <AuthNavigation />}

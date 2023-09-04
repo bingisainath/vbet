@@ -1,4 +1,3 @@
-
 import {combineReducers} from 'redux';
 
 // Initial state for API data
@@ -37,7 +36,6 @@ const apiDataReducer = (state = initialApiDataState, action: any) => {
   }
 };
 
-
 const loginReducer = (state = initialApiDataState, action: any) => {
   switch (action.type) {
     case 'LOGIN_REQUEST':
@@ -66,11 +64,37 @@ const loginReducer = (state = initialApiDataState, action: any) => {
   }
 };
 
-
+const logoutReducer = (state = initialApiDataState, action: any) => {
+  switch (action.type) {
+    case 'LOGOUT_REQUEST':
+      return {
+        ...state,
+        loading: true,
+        isLogin: false,
+        error: '',
+      };
+    case 'LOGOUT_SUCCESS':
+      return {
+        ...state,
+        loading: false,
+        isLogin: false,
+        error: null,
+      };
+    case 'LOGOUT_FAILURE':
+      return {
+        ...state,
+        loading: false,
+        isLogin: null,
+        error: action.error,
+      };
+    default:
+      return state;
+  }
+};
 
 const rootReducer = combineReducers({
   apiData: apiDataReducer,
-  login: loginReducer
+  login: loginReducer,
   // Add other reducers here
 });
 
